@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Express Practice</title>
+  </head>
+  <body>
+    <h1>Express Practice</h1>
+    <input type="text" id="search" placeholder="Search Box" />
+    <button onclick="fetchData()">Search</button>
+    <p id="result"></p>
+  </body>
+  <script>
+    function fetchData() {
+      //this function gets triggered while user hit "search"
+      const input = document.getElementById("search").value;
+      fetch(`http://localhost:3000/search?name=${encodeURIComponent(input)}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json", //fetch will get res.json({message: `Query is ${query}`})
+        },
+      })
+        .then((res) => res.text()) //converting the data return my fetch promise to JSON
+        .then((res) => {
+          document.getElementById("result").textContent = res; //accessing the message and appending it to feild with id "result"
+        })
+        .catch(
+          (err) =>
+            (document.getElementById("result").textContent = "An error occured") //if any error occurs while server send post request with query
+        );
+    }
+  </script>
+</html>
